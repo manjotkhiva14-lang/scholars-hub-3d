@@ -341,25 +341,9 @@ p{ margin:0; }
    ========================================================= */
 @media (max-width: 860px){
   .facility-grid{ grid-template-columns: repeat(2, 1fr); }
-  .hero{ min-height: auto; padding-top: 8rem; padding-bottom: 13rem; }
-  .hero-scene{ opacity: 1; }
-
-  /* Orbit cards get a much smaller radius and move to a dedicated
-     spot below the buttons so they don't fly off-screen or sit
-     on top of the hero text on a narrow viewport. */
-  :root{
-    --orbit-r-a: 46px;
-    --orbit-r-b: 66px;
-    --orbit-r-c: 86px;
-  }
-  .floating-card{
-    top: auto;
-    bottom: 2.2rem;
-    left: 50%;
-    margin: 0 0 0 -48px;
-    font-size: 0.62rem;
-    padding: 0.65rem 0.9rem;
-  }
+  .hero{ min-height: auto; padding-top: 8rem; padding-bottom: 4rem; }
+  .hero-scene{ opacity: 0.5; }
+  .floating-card{ display:none; }
 
   .catalog{ flex-direction: column; align-items:center; gap: 1.2rem; }
   .catalog-card,
