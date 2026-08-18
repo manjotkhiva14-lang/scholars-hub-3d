@@ -1,0 +1,457 @@
+/* =========================================================
+   THE SCHOLARS HUB — design tokens
+   Ink background + brass "reading lamp" accent + paper text.
+   Signature element: the card-catalog timing cards (§ TIMINGS)
+   ========================================================= */
+
+:root{
+  --ink:        #FFFFFF;
+  --ink-2:      #CBD5E1;
+  --panel:      #FFFFFF;
+  --panel-2:    #EAF1F7;
+  --brass:      #002D62;
+  --brass-dim:  #CBD5E1;
+  --emerald:    #ADD8E6;
+  --paper:      #1F2A3D;
+  --muted:      #6C7A9F;
+  --whatsapp:   #25D366;
+  --line:       rgba(0,45,98,0.12);
+
+  --font-display: "Fraunces", serif;
+  --font-body:    "Inter", sans-serif;
+  --font-mono:    "JetBrains Mono", monospace;
+
+  --radius: 14px;
+  --ease: cubic-bezier(.22,.9,.3,1);
+}
+
+*{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+
+body{
+  margin:0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a{ color: inherit; text-decoration: none; }
+h1,h2,h3{ font-family: var(--font-display); font-weight: 600; margin:0; }
+p{ margin:0; }
+
+::selection{ background: var(--brass); color: var(--ink); }
+
+:focus-visible{
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+.icon{ width:18px; height:18px; stroke: currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+
+/* =========================================================
+   LAYOUT HELPERS
+   ========================================================= */
+.eyebrow{
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: 0.9rem;
+}
+.center{ text-align:center; }
+.section-title{ font-size: clamp(1.7rem, 3.6vw, 2.6rem); }
+.section-sub{ color: var(--muted); margin-top: 0.7rem; font-size: 1rem; max-width: 40ch; margin-left:auto; margin-right:auto; }
+
+.btn{
+  display:inline-flex; align-items:center; gap:0.55rem;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.25s var(--ease);
+  white-space: nowrap;
+}
+.btn-primary{ background: var(--brass); color: var(--ink); }
+.btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 10px 24px -8px rgba(0,45,98,0.35); }
+.btn-ghost{ background: transparent; color: var(--paper); border: 1px solid var(--line); }
+.btn-ghost:hover{ border-color: var(--brass); color: var(--brass); transform: translateY(-2px); }
+.btn-whatsapp{ background: var(--whatsapp); color: var(--ink); }
+.btn-whatsapp:hover{ transform: translateY(-2px); box-shadow: 0 10px 24px -8px rgba(37,211,102,0.4); }
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+.site-header{
+  position: sticky; top:0; z-index: 50;
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 1.1rem clamp(1.2rem, 5vw, 3rem);
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.brand{ display:flex; align-items:center; gap:0.65rem; }
+.brand-mark{
+  width:34px; height:34px; border-radius:8px;
+  display:grid; place-items:center;
+  background: var(--brass); color: var(--ink);
+  font-family: var(--font-mono); font-weight:700; font-size:0.85rem;
+}
+.brand-name{ font-family: var(--font-display); font-weight:600; font-size:1.05rem; }
+.nav-cta{
+  font-family: var(--font-mono); font-size:0.78rem; letter-spacing:0.04em;
+  border: 1px solid var(--brass-dim); color: var(--brass);
+  padding: 0.5rem 1rem; border-radius: 999px;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.nav-cta:hover{ background: var(--brass); color: var(--ink); }
+
+/* =========================================================
+   HERO — perspective desk scene
+   ========================================================= */
+.hero{
+  position: relative;
+  min-height: 92vh;
+  display:flex; align-items:center;
+  padding: 6rem clamp(1.2rem, 6vw, 5rem);
+  overflow: hidden;
+  perspective: 1400px;
+}
+
+.hero-scene{ position:absolute; inset:0; pointer-events:none; }
+
+.lamp-glow{
+  position:absolute; top: -10%; right: 8%;
+  width: 46vw; height: 46vw; max-width:640px; max-height:640px;
+  background: radial-gradient(circle, rgba(173,216,230,0.28) 0%, rgba(173,216,230,0.08) 42%, transparent 70%);
+  filter: blur(2px);
+}
+
+.floating-card{
+  position:absolute;
+  top: 40%; left: 68%;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--brass);
+  border: 1px solid var(--brass-dim);
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(6px);
+  padding: 0.9rem 1.2rem;
+  border-radius: 10px;
+  margin: -20px 0 0 -55px;
+  transform-style: preserve-3d;
+}
+/* Each card orbits a shared center point forever, at its own
+   radius and speed, so they never fully sync up. The counter-
+   rotate in each keyframe keeps the text upright as it travels. */
+.card-a{ animation: orbit-a 13s linear infinite; }
+.card-b{ animation: orbit-b 18s linear infinite reverse; }
+.card-c{ animation: orbit-c 23s linear infinite; }
+
+@keyframes orbit-a{
+  from{ transform: rotate(0deg) translateX(var(--orbit-r-a, 120px)) rotate(0deg); }
+  to{   transform: rotate(360deg) translateX(var(--orbit-r-a, 120px)) rotate(-360deg); }
+}
+@keyframes orbit-b{
+  from{ transform: rotate(0deg) translateX(var(--orbit-r-b, 185px)) rotate(0deg); }
+  to{   transform: rotate(360deg) translateX(var(--orbit-r-b, 185px)) rotate(-360deg); }
+}
+@keyframes orbit-c{
+  from{ transform: rotate(0deg) translateX(var(--orbit-r-c, 250px)) rotate(0deg); }
+  to{   transform: rotate(360deg) translateX(var(--orbit-r-c, 250px)) rotate(-360deg); }
+}
+
+.hero-content{ position:relative; max-width: 640px; }
+.hero-title{
+  font-size: clamp(2.6rem, 6.4vw, 4.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+}
+.hero-title em{ font-style: italic; color: var(--brass); }
+.hero-sub{
+  margin-top: 1.6rem;
+  color: var(--muted);
+  font-size: 1.08rem;
+  max-width: 46ch;
+}
+.hero-actions{ display:flex; gap: 1rem; margin-top: 2.4rem; flex-wrap: wrap; }
+
+/* =========================================================
+   FACILITIES — tilt cards
+   ========================================================= */
+.facilities{ padding: 7rem clamp(1.2rem, 6vw, 5rem); }
+
+.facility-grid{
+  margin-top: 3.2rem;
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem;
+  perspective: 1200px;
+}
+
+.facility-card{
+  background: linear-gradient(160deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 2rem 1.6rem;
+  transform-style: preserve-3d;
+  transition: transform 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+@media (hover: hover){
+  .facility-card:hover{
+    transform: rotate3d(1,-1,0,6deg) translateY(-4px);
+    border-color: var(--brass);
+  }
+}
+.facility-icon{
+  display:grid; place-items:center;
+  width: 46px; height:46px;
+  border-radius: 10px;
+  background: rgba(173,216,230,0.35);
+  margin-bottom: 1.3rem;
+}
+.facility-icon svg{ width:22px; height:22px; stroke: var(--brass); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+.facility-card h3{ font-size: 1.08rem; margin-bottom: 0.5rem; }
+.facility-card p{ color: var(--muted); font-size: 0.92rem; }
+
+/* =========================================================
+   TIMINGS — the card-catalog signature
+   Cards read like library index cards fanned across a desk.
+   ========================================================= */
+.timings{ padding: 7rem clamp(1.2rem, 6vw, 5rem); background: var(--ink-2); }
+
+.catalog{
+  margin-top: 3.6rem;
+  display:flex;
+  justify-content:center;
+  gap: 0;
+  perspective: 1600px;
+}
+
+.catalog-card{
+  --tilt: calc((var(--i) - 1) * 6deg);
+  width: 230px;
+  min-height: 300px;
+  margin-left: -30px;
+  background: linear-gradient(160deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 30px 50px -20px rgba(0,0,0,0.6);
+  padding: 1.8rem 1.5rem;
+  transform-style: preserve-3d;
+  transform: rotate(var(--tilt)) translateY(calc(var(--i) * 4px));
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease), z-index 0s;
+  position: relative;
+}
+.catalog-inner{
+  display:flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  height: 100%;
+}
+/* Continuous idle bob — only kicks in once the card has scrolled
+   into view and finished its fly-in, so it never fights that
+   transition. Runs forever, independent of the outer card's
+   fan-position transform. */
+.catalog-card.in-view .catalog-inner{
+  animation: card-bob 5s ease-in-out infinite;
+}
+.catalog-card:nth-child(2).in-view .catalog-inner{ animation-delay: 0.6s; }
+.catalog-card:nth-child(3).in-view .catalog-inner{ animation-delay: 1.2s; }
+
+@keyframes card-bob{
+  0%, 100%{ transform: translateY(0) rotate(0deg); }
+  50%{ transform: translateY(-7px) rotate(0.6deg); }
+}
+.catalog-card:first-child{ margin-left: 0; }
+.catalog-card:nth-child(2){ z-index:2; }
+.catalog-card:nth-child(3){ z-index:1; }
+
+@media (hover: hover){
+  .catalog-card:hover,
+  .catalog-card.in-view:hover{
+    transform: rotate(0deg) translateY(-18px) scale(1.04);
+    z-index: 10 !important;
+    box-shadow: 0 40px 60px -20px rgba(0,45,98,0.2);
+    border-color: var(--brass);
+  }
+}
+
+.catalog-card-full{
+  background: linear-gradient(160deg, #EAF1F7, var(--panel-2));
+  border-color: var(--brass);
+}
+.catalog-card-full .catalog-fee,
+.catalog-card-full .catalog-tab{ color: var(--brass); }
+
+.catalog-tab{
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+.catalog-time{
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--paper);
+}
+.catalog-time small{ font-size: 0.85rem; font-weight:500; color: var(--muted); margin: 0 0.1rem; }
+.catalog-label{ color: var(--muted); font-size: 0.86rem; }
+.catalog-fee{
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--brass);
+  padding-top: 1rem;
+  border-top: 1px dashed var(--line);
+}
+.catalog-fee small{ font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+
+/* =========================================================
+   CONTACT
+   ========================================================= */
+.contact{ padding: 8rem clamp(1.2rem, 6vw, 5rem); }
+.contact-inner{ max-width: 640px; margin: 0 auto; text-align:center; }
+.contact .section-title{ margin-top: 0.4rem; }
+.contact-actions{
+  margin-top: 2.6rem;
+  display:flex; justify-content:center; flex-wrap: wrap; gap: 1rem;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.site-footer{
+  text-align:center;
+  padding: 2rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  border-top: 1px solid var(--line);
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+@media (max-width: 860px){
+  .facility-grid{ grid-template-columns: repeat(2, 1fr); }
+  .hero{ min-height: auto; padding-top: 8rem; padding-bottom: 13rem; }
+  .hero-scene{ opacity: 1; }
+
+  /* Orbit cards get a much smaller radius and move to a dedicated
+     spot below the buttons so they don't fly off-screen or sit
+     on top of the hero text on a narrow viewport. */
+  :root{
+    --orbit-r-a: 46px;
+    --orbit-r-b: 66px;
+    --orbit-r-c: 86px;
+  }
+  .floating-card{
+    top: auto;
+    bottom: 2.2rem;
+    left: 50%;
+    margin: 0 0 0 -48px;
+    font-size: 0.62rem;
+    padding: 0.65rem 0.9rem;
+  }
+
+  .catalog{ flex-direction: column; align-items:center; gap: 1.2rem; }
+  .catalog-card,
+  .catalog-card.in-view{ margin-left:0; transform: none; width: 100%; max-width: 320px; }
+  .catalog-card:hover{ transform: translateY(-6px) !important; }
+}
+
+@media (max-width: 560px){
+  .facility-grid{ grid-template-columns: 1fr; }
+  .site-header{ padding: 1rem 1.2rem; }
+  .brand-name{ font-size: 0.95rem; }
+  .hero-actions .btn{ flex: 1 1 auto; justify-content:center; }
+}
+
+/* =========================================================
+   SCROLL REVEALS — elements start tilted back/faded, and
+   snap into place when script.js adds .in-view via
+   IntersectionObserver. This is what makes the page feel
+   3D while scrolling, not just on hover.
+   ========================================================= */
+.facility-card,
+.section-title,
+.section-sub,
+.contact-inner{
+  opacity: 0;
+  transform: translateY(40px) rotate3d(1,0,0,-14deg);
+  transform-origin: bottom center;
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.facility-card.in-view,
+.section-title.in-view,
+.section-sub.in-view,
+.contact-inner.in-view{
+  opacity: 1;
+  transform: translateY(0) rotate3d(1,0,0,0deg);
+}
+
+/* stagger facility cards so they don't all land at once */
+.facility-grid .facility-card:nth-child(1){ transition-delay: 0s; }
+.facility-grid .facility-card:nth-child(2){ transition-delay: 0.08s; }
+.facility-grid .facility-card:nth-child(3){ transition-delay: 0.16s; }
+.facility-grid .facility-card:nth-child(4){ transition-delay: 0.24s; }
+.facility-grid .facility-card:nth-child(5){ transition-delay: 0.32s; }
+.facility-grid .facility-card:nth-child(6){ transition-delay: 0.4s; }
+
+/* catalog cards fly in from their fanned resting position */
+.catalog-card{
+  opacity: 0;
+  transform: rotate(var(--tilt)) translateY(120px) translateY(calc(var(--i) * 4px));
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease), box-shadow 0.5s var(--ease), border-color 0.4s var(--ease);
+}
+.catalog-card.in-view{
+  opacity: 1;
+  transform: rotate(var(--tilt)) translateY(0) translateY(calc(var(--i) * 4px));
+}
+.catalog-card:nth-child(2).in-view{ transition-delay: 0.1s; }
+.catalog-card:nth-child(3).in-view{ transition-delay: 0.2s; }
+
+/* =========================================================
+   PAGE-LOAD ENTRANCE — header, hero text, and floating cards
+   start off-state and animate in once script.js adds `.loaded`
+   to <body> on DOMContentLoaded. Staggered via transition-delay.
+   ========================================================= */
+body:not(.loaded) .site-header{ transform: translateY(-100%); }
+.site-header{
+  transition: transform 0.7s var(--ease);
+}
+
+body:not(.loaded) .eyebrow-load,
+body:not(.loaded) .hero-title,
+body:not(.loaded) .hero-sub,
+body:not(.loaded) .hero-actions{
+  opacity: 0;
+  transform: translateY(28px);
+}
+.eyebrow-load,
+.hero-title,
+.hero-sub,
+.hero-actions{
+  transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
+}
+body.loaded .eyebrow-load{ transition-delay: 0.15s; }
+body.loaded .hero-title{ transition-delay: 0.28s; }
+body.loaded .hero-sub{ transition-delay: 0.42s; }
+body.loaded .hero-actions{ transition-delay: 0.56s; }
+
+body:not(.loaded) .floating-card{ opacity: 0; }
+.floating-card{ transition: opacity 0.8s var(--ease); }
+body.loaded .card-a{ transition-delay: 0.5s; }
+body.loaded .card-b{ transition-delay: 0.7s; }
+body.loaded .card-c{ transition-delay: 0.9s; }
+
+body:not(.loaded) .lamp-glow{ opacity: 0; transform: scale(0.7); }
+.lamp-glow{ transition: opacity 1.2s var(--ease), transform 1.2s var(--ease); }
+body.loaded .lamp-glow{ transition-delay: 0.1s; }
