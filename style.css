@@ -354,7 +354,7 @@ p{ margin:0; }
   }
   .floating-card{
     top: auto;
-    bottom: auto;
+    bottom: 3.2rem;
     left: 50%;
     margin: 0 0 0 -48px;
     font-size: 0.62rem;
